@@ -55,6 +55,12 @@ const addBookHandler = (request, h) => {
         response.code(201);
         return response;
     };
+    const response = h.response({
+        status: 'fail',
+        message: 'unreachable'
+    });
+    response.code(500);
+    return response;
 };
 
 const getAllBooksHandler = () => ({
