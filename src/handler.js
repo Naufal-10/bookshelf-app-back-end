@@ -28,10 +28,9 @@ const addBookHandler = (request, h) => {
     
     const updatedAt = insertedAt;
     
-    const finished = false;
+    let finished = false;
     
     if(pageCount === readPage){
-        // eslint-disable-next-line no-const-assign
         finished = true;
         return finished;
     };
