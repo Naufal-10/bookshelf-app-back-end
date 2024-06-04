@@ -2,8 +2,26 @@ const books = require('./bookshelf');
 const { nanoid } = require('nanoid');
 
 const addBookHandler = (request, h) => {
-    const { name = '', year = 0, author = '', summary = '', publisher = '', pageCount = 0, readPage = 0, reading = false } = request.payload;
+    const { name = '', year = 0, author = '', summary = '', publisher = '', pageCount = 0, readPage = 0, reading = false } = request.payload; 
+
+    if(name === null){
+        const response = h.response({
+            status: 'fail',
+            message: 'Gagal menambahkan buku. Mohon isi nama buku'
+        });
+        response.code(400);
+        return response;
+    };
     
+    if(readPage > pageCount){
+        const response = h.response({
+            status: 'fail',
+            message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
+        });
+        response.code(400);
+        return response;
+    };
+
     const id = nanoid(16);
     
     const insertedAt = new Date().toISOString();
@@ -16,7 +34,7 @@ const addBookHandler = (request, h) => {
         // eslint-disable-next-line no-const-assign
         finished = true;
         return finished;
-    }
+    };
     
     const newBook = {
        id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
@@ -26,7 +44,7 @@ const addBookHandler = (request, h) => {
 
     const isSuccess = books.filter((books) => books.id === id).lenght > 0;
 
-    if(isSuccess != 0){
+   if(isSuccess != 0){
         const response = h.response({
             status: 'success',
             message: 'Buku berhasil ditambahkan',
@@ -35,24 +53,6 @@ const addBookHandler = (request, h) => {
             },
         });
         response.code(201);
-        return response;
-    };
-
-    if(name === null){
-        const response = h.response({
-            status: 'fail',
-            message: 'Gagal menambahkan buku. Mohon isi nama buku'
-        });
-        response.code(400);
-        return response;
-    };
-
-    if(readPage > pageCount){
-        const response = h.response({
-            status: 'fail',
-            message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
-        });
-        response.code(400);
         return response;
     };
 };
