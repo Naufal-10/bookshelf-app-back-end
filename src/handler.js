@@ -12,15 +12,6 @@ const addBookHandler = (request, h) => {
         response.code(400);
         return response;
     };
-    
-    if(readPage > pageCount){
-        const response = h.response({
-            status: 'fail',
-            message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
-        });
-        response.code(400);
-        return response;
-    };
 
     const bookId = nanoid(16);
     
@@ -30,7 +21,14 @@ const addBookHandler = (request, h) => {
     
     let finished = false;
     
-    if(pageCount === readPage){
+    if(readPage > pageCount){
+        const response = h.response({
+            status: 'fail',
+            message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount'
+        });
+        response.code(400);
+        return response;
+    }else if(pageCount === readPage){
         finished = true;
         return finished;
     };
