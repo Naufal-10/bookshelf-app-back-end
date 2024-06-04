@@ -30,7 +30,6 @@ const addBookHandler = (request, h) => {
         return response;
     }else if(pageCount === readPage){
         finished = true;
-        return finished;
     };
     
     const newBook = {
