@@ -4,7 +4,7 @@ const { nanoid } = require('nanoid');
 const addBookHandler = (request, h) => {
     const { name = '', year = 0, author = '', summary = '', publisher = '', pageCount = 0, readPage = 0, reading = false } = request.payload; 
 
-    if(name === null){
+    if(name === ''){
         const response = h.response({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku'
