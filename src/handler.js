@@ -13,7 +13,7 @@ const addBookHandler = (request, h) => {
         return response;
     };
 
-    const bookId = nanoid(16);
+    const id = nanoid(16);
     
     const insertedAt = new Date().toISOString();
     
@@ -33,19 +33,19 @@ const addBookHandler = (request, h) => {
     };
     
     const newBook = {
-       bookId, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
+       id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
     };
 
     books.push(newBook);
 
-    const isSuccess = books.filter((books) => books.bookId === bookId).lenght > 0;
+    const isSuccess = books.filter((books) => books.id === id).lenght > 0;
 
    if(isSuccess != 0){
         const response = h.response({
             status: 'success',
             message: 'Buku berhasil ditambahkan',
             data: {
-                bookId: bookId,
+                bookId: "id",
             },
         });
         response.code(201);
@@ -67,9 +67,9 @@ const getAllBooksHandler = () => ({
 });
 
 const getBookByIdHandler = (request, h) => {
-    const { bookId } = request.params;
+    const { id } = request.params;
     
-    const book = books.filter((b) => b.bookId === bookId)[0];
+    const book = books.filter((b) => b.id === id)[0];
 
     if(book != undefined){
         return {
@@ -89,13 +89,13 @@ const getBookByIdHandler = (request, h) => {
 };
 
 const editBookByIdHandler = (request, h) => {
-    const { bookId } = request.params;
+    const { id } = request.params;
     
     const { name = '', year = 0, author = '', summary = '', publisher = '', pageCount = 0, readPage = 0, reading = false } = request.payload;
     
     const updatedAt = new Date().toISOString();
 
-    const index = books.findIndex((book) => book.bookId === bookId);
+    const index = books.findIndex((book) => book.id === id);
 
     if(index != 1){
         books[index] = {
@@ -146,9 +146,9 @@ const editBookByIdHandler = (request, h) => {
 };
 
 const deleteBookByIdHandler = (request, h) => {
-    const { bookId } = request.params;
+    const { id } = request.params;
 
-    const index = books.findIndex((book) => book.bookId === bookId);
+    const index = books.findIndex((book) => book.id === id);
 
     if(index !== -1){
         books.slice(index, 1);
